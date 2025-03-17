@@ -2,9 +2,7 @@
 
 namespace App\Controller;
 
-use Add\Entity\Product;
-use Add\Repository\CategoryRepository;
-use Add\Repository\CRUDRepository;
+use App\Repository\CRUDRepository;
 use App\Entity\CRUD;
 use App\Repository\CRUDRepository as RepositoryCRUDRepository;
 use App\Repository\DepartmentRepository;
@@ -18,7 +16,7 @@ use Symfony\Component\Routing\Attribute\Route;
 final class CRUDController extends AbstractController
 {
     #[Route('/crud', name: 'app_c_r_u_d')]
-    public function index(Request $request, RepositoryCRUDRepository $CRUDRepository): Response
+    public function index(Request $request, CRUDRepository $CRUDRepository): Response
     {
 
         $search = $request->query->get("search");
@@ -33,28 +31,31 @@ final class CRUDController extends AbstractController
     }
 
     #[Route('/crud', name: 'create_crud', methods: ['POST'])]
-    public function  create(EntityManagerInterface $em, Request $request, RepositoryCRUDRepository $CRUDRepository): Response
+    public function create(EntityManagerInterface $em, Request $request, DepartmentRepository $departmentRepository): Response
     {
+
         $departmentId = $request->request->get('department');
-        $category = $CRUDRepository->find($departmentId);
+        $department = $departmentRepository->find($departmentId);
         $crud = new CRUD();
         $crud->setFirstName($request->request->get('first_name'));
         $crud->setLastName($request->request->get('last_name'));
         $crud->setAge($request->request->get('age'));
-        $crud->setStatus($request->request->get('Status'));
+        $crud->setStatus($request->request->get('status'));
         $crud->setEmail($request->request->get('email'));
         $crud->setTelegram($request->request->get('telegram'));
         $crud->setAddress($request->request->get('address'));
-        $crud->setDepartment($category);
+        $crud->setDepartment($department);
         $em->persist($crud);
         $em->flush();
 
-        return $this->render('/crud');
+
+
+        return $this->redirect('/');
     }
 
 
 
-    #[Route('/crud/create', name: 'create_crud', methods: ["GET"])]
+    #[Route('/crud/create')]
     public function fromCreate(DepartmentRepository $Departmentepository): Response
     {
         $departments =  $Departmentepository->findAll();
@@ -71,7 +72,7 @@ final class CRUDController extends AbstractController
     }
 
     #[Route('/crud/find', name: 'find_crud', methods: ["FIND"])]
-    public function find(RepositoryCRUDRepository $CRUDRepository): Response
+    public function find(CRUDRepository $CRUDRepository): Response
     {
         $qb = $CRUDRepository->createQueryBuilder('u');
         $qb->andWhere('u.id LIKE :id');
@@ -90,7 +91,7 @@ final class CRUDController extends AbstractController
 
 
     #[Route('/crud/{crud}', name: "update_crud", methods: ["PUT"])]
-    public function update(CRUD $crud, Request $request, EntityManagerInterface $em, RepositoryCRUDRepository $CRUDRepository, DepartmentRepository $departmentRepository) // Inject DepartmentRepository
+    public function update(CRUD $crud, Request $request, EntityManagerInterface $em, CRUDRepository $CRUDRepository, DepartmentRepository $departmentRepository) // Inject DepartmentRepository
     {
         $departmentId = $request->request->get('department');
         $department = $departmentRepository->find($departmentId);
@@ -112,3 +113,4 @@ final class CRUDController extends AbstractController
         return $this->redirect('/crud');
     }
 }
+
