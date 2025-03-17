@@ -3,11 +3,11 @@
 {% block title %}Hello CRUDController!{% endblock %}
 
 {% block body %}
-<form method="POST" action="{{ path('create_crud') }}">
+<form method="POST" action={{ path('create_crud') }}>
     <input name="last_name" type="text">
     <input name="first_name" type="text">
     <input name="age" type="number">
-    <input name="Status" type="text">
+    <input name="status" type="text">
     <input name="email" type="text">
     <input name="telegram" type="text">
     <input name="address" type="text">
@@ -20,4 +20,3 @@
 </form>
 
 {% endblock %}
-
