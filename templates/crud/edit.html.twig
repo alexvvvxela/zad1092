@@ -3,7 +3,7 @@
 {% block title %}Hello CRUDController!{% endblock %}
 
 {% block body %}
-<form action="{{path('update_crud',{crud: crud.id},{departments: department.name})}}" method="POST">
+<form action="{{path('update_crud',{crud: crud.id})}}" method="POST">
     <input type="hidden" name="_method" value="PUT">
     <input name="LastName" type="text" value="{{crud.LastName}}">
     <input name="FirstName" type="text" value="{{crud.FirstName}}">
@@ -15,7 +15,7 @@
     <input type="submit" value="Сохранить">
     <select name ="department">
     {% for department in departments %}
-    <option value = "{{department.id}}"> {{department.name}} </option> 
+        <option value = "{{department.id}}"> {{department.name}} </option> 
     {% endfor %}
     </select>
 
