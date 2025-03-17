@@ -112,4 +112,3 @@ final class CRUDController extends AbstractController
         return $this->redirect('/crud');
     }
 }
-
