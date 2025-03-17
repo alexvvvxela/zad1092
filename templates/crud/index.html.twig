@@ -55,7 +55,7 @@
         <option value="ASC">ПоУбыванию</option>
         </select>
         <input name="submit" type="submit">
-        <a href="{{ path('create_crud') }}">Создать</a>
+  
             {% for crud in cruds %}
             <tr>
                 <td>{{crud.id}}</td>
@@ -85,3 +85,4 @@
         </tbody>
     </table>
 {% endblock %}
+
