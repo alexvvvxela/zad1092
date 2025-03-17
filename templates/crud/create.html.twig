@@ -4,13 +4,13 @@
 
 {% block body %}
 <form method="POST" action="{{ path('create_crud') }}">
-    <input name="LastName" type="text">
-    <input name="FirstName" type="text">
-    <input name="Age" type="number">
+    <input name="last_name" type="text">
+    <input name="first_name" type="text">
+    <input name="age" type="number">
     <input name="Status" type="text">
-    <input name="Email" type="text">
-    <input name="Telegram" type="text">
-    <input name="Address" type="text">
+    <input name="email" type="text">
+    <input name="telegram" type="text">
+    <input name="address" type="text">
     <input name="sumbit" type="submit">
     <select name ="department">
     {% for department in departments %}
