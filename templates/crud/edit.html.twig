@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CRUDController!{% endblock %}
+
+{% block body %}
+<form action="{{path('update_crud',{crud: crud.id},{departments: department.name})}}" method="POST">
+    <input type="hidden" name="_method" value="PUT">
+    <input name="LastName" type="text" value="{{crud.LastName}}">
+    <input name="FirstName" type="text" value="{{crud.FirstName}}">
+    <input name="Age" type="number" value="{{crud.Age}}">
+    <input name="Status" type="text" value="{{crud.Status}}">
+    <input name="Email" type="text" value="{{crud.Email}}">
+    <input name="Telegram" type="text" value="{{crud.Telegram}}">
+    <input name="Address" type="text" value="{{crud.Address}}">
+    <input type="submit" value="Сохранить">
+    <select name ="department">
+    {% for department in departments %}
+    <option value = "{{department.id}}"> {{department.name}} </option> 
+    {% endfor %}
+    </select>
+
+
+</form>
+{% endblock %}

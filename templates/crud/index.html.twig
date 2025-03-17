@@ -1,0 +1,87 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CRUDController!{% endblock %}
+
+{% block body %}
+  <table>
+        <thead>
+            <tr>
+                <th>
+                    id
+                </th>
+                   <th>
+                    Имя
+                </th>
+                <th>
+                    Фамилия
+                </th>
+                
+                <th>
+                    Возраст
+                </th>
+                <th>
+                    Статус
+                </th>
+                <th>
+                    email
+                </th>
+                
+                <th>
+                    tg
+                </th>
+                
+                <th>
+                    адрес
+                </th>
+                 <th>
+                    Отдел
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+        <form action="{{path('app_c_r_u_d')}}" method="GET">
+        <select name="search">
+        <option value="last_name">Имя</option>
+        <option value="first_name" >Фамилия</option>
+        <option value="age" >Возраст</option>
+        <option value="status" >Статус</option>
+        <option value="email">Эмейл</option>
+        <option value="telegram" >телеграм</option>
+        <option value="address" >Адресс</option>
+        <option value="department" >Отдел</option>
+        </select>
+        <select name="searchs">
+        <option value="DESC">ПоВозрастанию</option>
+        <option value="ASC">ПоУбыванию</option>
+        </select>
+        <input name="submit" type="submit">
+        <a href="{{ path('create_crud') }}">Создать</a>
+            {% for crud in cruds %}
+            <tr>
+                <td>{{crud.id}}</td>
+                <td>{{crud.last_name}}</td>
+                <td>{{crud.first_name}}</td>
+                <td>{{crud.age}}</td>
+                <td>{{crud.status}}</td>
+                <td>{{crud.email}}</td>
+                <td>{{crud.telegram}}</td>
+                <td>{{crud.address}}</td>
+                {% if crud.department %}
+                <td>{{crud.department.name}}</td>
+                {% else %}
+                   <td> нету </td>
+                {% endif %}
+                <td>
+                <form method="POST" action="{{path('delete_crud',{"crud" : crud.id})}}">
+                <input type ="hidden" name="_method" value="DELETE">
+                <button>Удалить</button>
+                </form>
+                 </td>
+                <td>
+                <a href={{path('edit_crud', {crud:crud.id})}}">Изменить</a>
+                </td>
+            </tr>
+            {%endfor%}
+        </tbody>
+    </table>
+{% endblock %}
