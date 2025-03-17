@@ -82,30 +82,27 @@ final class CRUDController extends AbstractController
     }
 
     #[Route('/crud/{crud}', name: "edit_crud", methods: ["GET"])]
-    public function edit(CRUD $crud, DepartmentRepository $department)
+    public function edit(CRUD $crud, DepartmentRepository $Departmentepository)
     {
-        return $this->render('crud/edit.html.twig', ['crud' => $crud, 'department' => $department]);
+        $departments =  $Departmentepository->findAll();
+        return $this->render('crud/edit.html.twig', ['crud' => $crud, "departments" => $departments]);
     }
 
 
     #[Route('/crud/{crud}', name: "update_crud", methods: ["PUT"])]
-    public function update(CRUD $crud, Request $request, EntityManagerInterface $em, DepartmentRepository $department)
+    public function update(CRUD $crud, Request $request, EntityManagerInterface $em, RepositoryCRUDRepository $CRUDRepository)
     {
-
-
-        $crud->setLastName($request->request->get('LastName'));
-        $crud->setFirstName($request->request->get('FirstName'));
-        $crud->setAge($request->request->get('Age'));
-        $crud->setStatus($request->request->get('Status'));
-        $crud->setEmail($request->request->get('Email'));
-        $crud->setTelegram($request->request->get('Telegram'));
-        $crud->setAddress($request->request->get('Address'));
-        $categoryId = $request->request->get('department');
-        $departmentf = $department->find($categoryId);
-        $crud->setDepartment($departmentf);
-        $em = flush();
-
-
+        $departmentId = $request->request->get('department');
+        $category = $CRUDRepository->find($departmentId);
+        $crud->setFirstName($request->request->get('first_name'));
+        $crud->setLastName($request->request->get('last_name'));
+        $crud->setAge($request->request->get('age'));
+        $crud->setEmail($request->request->get('email'));
+        $crud->setTelegram($request->request->get('telegram'));
+        $crud->setAddress($request->request->get('address'));
+        $crud->setDepartment($category);
+        $em->persist($crud);
+        $em->flush();
         return $this->redirect('/crud');
     }
 }
