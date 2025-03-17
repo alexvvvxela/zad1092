@@ -38,18 +38,18 @@ final class CRUDController extends AbstractController
         $departmentId = $request->request->get('department');
         $category = $CRUDRepository->find($departmentId);
         $crud = new CRUD();
-        $crud->setLastName($request->request->get('LastName'));
-        $crud->setFirstName($request->request->get('FirstName'));
-        $crud->setAge($request->request->get('Age'));
+        $crud->setFirstName($request->request->get('first_name'));
+        $crud->setLastName($request->request->get('last_name'));
+        $crud->setAge($request->request->get('age'));
         $crud->setStatus($request->request->get('Status'));
-        $crud->setEmail($request->request->get('Email'));
-        $crud->setTelegram($request->request->get('Telegram'));
-        $crud->setAddress($request->request->get('Address'));
+        $crud->setEmail($request->request->get('email'));
+        $crud->setTelegram($request->request->get('telegram'));
+        $crud->setAddress($request->request->get('address'));
         $crud->setDepartment($category);
         $em->persist($crud);
         $em->flush();
 
-        return $this->redirect('/');
+        return $this->render('/crud');
     }
 
 
@@ -90,19 +90,26 @@ final class CRUDController extends AbstractController
 
 
     #[Route('/crud/{crud}', name: "update_crud", methods: ["PUT"])]
-    public function update(CRUD $crud, Request $request, EntityManagerInterface $em, RepositoryCRUDRepository $CRUDRepository)
+    public function update(CRUD $crud, Request $request, EntityManagerInterface $em, RepositoryCRUDRepository $CRUDRepository, DepartmentRepository $departmentRepository) // Inject DepartmentRepository
     {
         $departmentId = $request->request->get('department');
-        $category = $CRUDRepository->find($departmentId);
+        $department = $departmentRepository->find($departmentId);
+
+
         $crud->setFirstName($request->request->get('first_name'));
         $crud->setLastName($request->request->get('last_name'));
         $crud->setAge($request->request->get('age'));
+        $crud->setStatus($request->request->get('Status'));
         $crud->setEmail($request->request->get('email'));
         $crud->setTelegram($request->request->get('telegram'));
         $crud->setAddress($request->request->get('address'));
-        $crud->setDepartment($category);
+        $crud->setDepartment($department);
         $em->persist($crud);
         $em->flush();
+
+
+
         return $this->redirect('/crud');
     }
 }
+
